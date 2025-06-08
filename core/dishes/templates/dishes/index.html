@@ -60,6 +60,32 @@ https://templatemo.com/tm-539-simple-house
 				</nav>
 			</div>
 
+            <section class="dishes-section">
+  <div class="container">
+    <div class="row">
+      {% for dish in dishes %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+<img class="card-image" src="{{ dishes.image.url }}" alt="{{ dishes.title }}" style="width:210px; height:280px; object-fit:cover;">
+              <h5 class="card-title">{{ dishes.title }}</h5>
+              <p class="card-text">{{ dishes.description|truncatewords:20 }}</p>
+              <p><strong>Цена:</strong> {{ dishes.price }} сом</p>
+              <a href="{% url 'dishes_detail' dishes.id %}" class="btn btn-primary">Купить</a>
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>Блюд пока-что нету:(.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 
 			<div class="tm-section tm-container-inner">
 				<div class="row">

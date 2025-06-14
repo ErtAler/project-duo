@@ -4,13 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseForbidden
 from django.contrib import messages
+from django.contrib.auth import logout
 from django.core.paginator import Paginator
 from .models import Dish, Category
+from .forms import RegisterForm
 
 
-from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
-from .models import Dish, Category
 
 def get_index(request, category_slug=None):
     categories = Category.objects.all()
@@ -42,11 +41,55 @@ def get_contact(request):
     return render(request, 'dishes/contact.html')
 
 @login_required
-def dishes_detail(request, ticket_id):
-    dishes = get_object_or_404(Dish, id=ticket_id)
-    return render(request, 'dishes/index.html', {
-        'dishes': dishes,
+def dishes_detail(request, pk):
+    dish = get_object_or_404(Dish, pk=pk)
+    return render(request, 'dishes/detail.html', {
+        'dish': dish,
     })
+
+def dishes_buy(request, pk):
+    dish = get_object_or_404(Dish, pk=pk)
+    return render(request, 'dishes/buy.html', {'dish': dish})
+
+
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Регистрация прошла успешно!")
+            return redirect('index')
+        else:
+            messages.error(request, "Ошибка регистрации. Проверьте форму.")
+    else:
+        form = RegisterForm()
+    return render(request, 'dishes/register.html', {'form': form})
+
+
+
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('index')
+    else:
+        form = AuthenticationForm
+    return render(request, 'dishes/login.html', {'form': form})
+
+
+@login_required
+def profile(request):
+    return render(request, 'dishes/profile.html')
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')
 
 
 def dishes_by_category(request, category_slug):

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ dish.name }}</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f9f9;
+      color: #333;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #4a90e2;
+      margin-bottom: 10px;
+    }
+    p.description {
+      font-size: 1.1em;
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+    p.price {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      color: #27ae60;
+    }
+    form {
+      text-align: center;
+    }
+    button {
+      background-color: #4a90e2;
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      font-size: 1em;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #357ABD;
+    }
+    a.back-link {
+      display: inline-block;
+      margin-top: 30px;
+      color: #555;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+    a.back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>{{ dish.name }}</h1>
+  <p class="description">{{ dish.description }}</p>
+  <p class="price">Цена: {{ dish.price }} ₽</p>
+
+  <form action="{% url 'dishes_buy' dish.pk %}" method="get">
+    <button type="submit">Купить</button>
+  </form>
+
+  <a href="{% url 'index' %}" class="back-link">← Вернуться на главную</a>
+</body>
+</html>

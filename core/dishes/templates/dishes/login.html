@@ -1,0 +1,137 @@
+{% load static %}
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Вход | Tiya Golf Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    /* Стили взяты из register.html и адаптированы под login */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #5f2c82, #49a09d);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: #fff;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px 50px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      width: 350px;
+      animation: fadeInUp 1s ease forwards;
+      position: relative;
+    }
+    h2 {
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 28px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-bottom: 5px;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    input[type="text"],
+    input[type="password"] {
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      transition: background-color 0.3s ease;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+    input[type="text"]::placeholder,
+    input[type="password"]::placeholder {
+      color: #ddd;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      background: rgba(255,255,255,0.35);
+    }
+    button {
+      padding: 12px 0;
+      background: #9c27b0;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 5px 15px rgba(156, 39, 176, 0.5);
+    }
+    button:hover {
+      background: #7b1fa2;
+      box-shadow: 0 8px 20px rgba(123, 31, 162, 0.7);
+    }
+    .link {
+      margin-top: 15px;
+      font-size: 14px;
+      text-align: center;
+      color: #eee;
+      opacity: 0.8;
+    }
+    .link a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.3s ease;
+    }
+    .link a:hover {
+      opacity: 1;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Вход</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <div style="color: #ffaaaa; margin-bottom: 15px;">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+      <label for="id_username">Имя пользователя</label>
+      {{ form.username }}
+      <label for="id_password">Пароль</label>
+      {{ form.password }}
+
+      <button type="submit">Войти</button>
+    </form>
+    <div class="link">
+      Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a>
+    </div>
+  </div>
+</body>
+</html>

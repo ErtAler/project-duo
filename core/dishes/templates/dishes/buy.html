@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Покупка успешна</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 500px;
+      margin: 60px auto;
+      padding: 30px;
+      background: #e0f7fa;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      color: #004d40;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1.2em;
+      margin-bottom: 40px;
+    }
+    a {
+      display: inline-block;
+      background-color: #004d40;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    a:hover {
+      background-color: #00251a;
+    }
+  </style>
+</head>
+<body>
+  <h1>Покупка успешна!</h1>
+  <p>Вы купили: <strong>{{ dish.name }}</strong></p>
+  <a href="{% url 'index' %}">Вернуться на главную</a>
+</body>
+</html>

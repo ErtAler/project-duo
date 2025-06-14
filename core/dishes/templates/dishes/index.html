@@ -110,6 +110,8 @@
       padding: 8px 24px;
       font-weight: 600;
       transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .btn-outline-primary:hover {
@@ -226,16 +228,62 @@
       font-size: 2rem;
       margin: 0;
     }
+
+    /* Кнопки входа/регистрации */
+    .auth-buttons {
+      margin-left: auto;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .auth-buttons a {
+      display: inline-block;
+      padding: 8px 20px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: white;
+      background-color: #6610f2;
+      border-radius: 25px;
+      text-decoration: none;
+      box-shadow: 0 3px 8px rgba(102, 16, 242, 0.4);
+      transition: background-color 0.3s, box-shadow 0.3s;
+      user-select: none;
+    }
+
+    .auth-buttons a:hover {
+      background-color: #520dc2;
+      box-shadow: 0 5px 15px rgba(82, 13, 194, 0.6);
+    }
+
+    .auth-buttons a.logout-btn {
+      background-color: #d6336c;
+      box-shadow: 0 3px 8px rgba(214, 51, 108, 0.5);
+    }
+
+    .auth-buttons a.logout-btn:hover {
+      background-color: #b82d5b;
+      box-shadow: 0 5px 15px rgba(184, 45, 91, 0.7);
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
 
-    <!-- Шапка с логотипом -->
+    <!-- Шапка с логотипом и кнопками -->
     <header>
-      <img src="{% static 'img/logo.png' %}" alt="Логотип Simple House" class="logo" />
+      <img src="{% static 'img/simple-house-logo.png' %}" alt="Логотип Simple House" class="logo" />
       <h1>Simple House</h1>
+
+      <div class="auth-buttons">
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}">Выйти</a>
+        {% else %}
+          <a href="{% url 'login' %}">Войти</a>
+          <a href="{% url 'register' %}">Регистрация</a>
+        {% endif %}
+      </div>
     </header>
 
     <!-- Секция "О ресторане" -->
@@ -246,9 +294,9 @@
         оригинальные рецепты и тёплую атмосферу. Наслаждайтесь неповторимым вкусом и приятным сервисом!
       </p>
       <div class="about-images">
-        <img src="{% static 'img/about1.jpg' %}" alt="Интерьер ресторана Simple House" />
-        <img src="{% static 'img/about2.jpg' %}" alt="Блюда Simple House" />
-        <img src="{% static 'img/about3.jpg' %}" alt="Довольные гости в Simple House" />
+        <img src="{% static 'img/about-05.jpg' %}" alt="Интерьер ресторана Simple House" />
+        <img src="{% static 'img/about-06.jpg' %}" alt="Блюда Simple House" />
+        <img src="{% static 'img/img-01.jpg' %}" alt="Довольные гости в Simple House" />
       </div>
     </section>
 
@@ -257,17 +305,17 @@
       <button onclick="toggleDropdown()" class="dropdown-btn" id="dropdownBtn" aria-haspopup="true" aria-expanded="false"
         aria-controls="dropdownMenu">
         {% if category %}
-        {{ category.name }}
+          {{ category.name }}
         {% else %}
-        Все категории
+          Все категории
         {% endif %}
       </button>
 
       <div class="dropdown-content" id="dropdownMenu" role="menu" aria-label="Категории">
         <a href="{% url 'index' %}" class="{% if not category %}active{% endif %}" role="menuitem">Все категории</a>
         {% for cat in categories %}
-        <a href="{% url 'dishes_by_category' cat.slug %}" class="{% if category == cat %}active{% endif %}"
-          role="menuitem">{{ cat.name }}</a>
+          <a href="{% url 'dishes_by_category' cat.slug %}" class="{% if category == cat %}active{% endif %}"
+             role="menuitem">{{ cat.name }}</a>
         {% endfor %}
       </div>
     </div>
@@ -276,27 +324,27 @@
     <section class="dishes-section py-5 bg-light" aria-label="Меню блюд">
       <div class="row" style="gap: 24px; display: flex; flex-wrap: wrap; justify-content: center;">
         {% for dish in page_obj %}
-        <div class="col-md-4" style="flex: 1 0 300px; max-width: 320px;">
-          <div class="card h-100">
-            {% if dish.image %}
-            <img src="{{ dish.image.url }}" alt="{{ dish.title }}" class="card-img-top" />
-            {% else %}
-            <img src="{% static 'img/default-dish.jpg' %}" alt="Изображение отсутствует" class="card-img-top" />
-            {% endif %}
-            <div class="card-body d-flex flex-column justify-content-between" style="padding: 15px;">
-              <div>
-                <h5 class="card-title text-center">{{ dish.title }}</h5>
-                <p class="card-text text-muted text-center">{{ dish.description|truncatewords:20 }}</p>
-              </div>
-              <div class="mt-3 text-center">
-                <p class="fs-5 fw-semibold text-success mb-3">Цена: {{ dish.price }} сом</p>
-                <a href="{% url 'dishes_detail' dish.id %}" class="btn btn-outline-primary rounded-pill px-4 py-2">Купить</a>
+          <div class="col-md-4" style="flex: 1 0 300px; max-width: 320px;">
+            <div class="card h-100">
+              {% if dish.image %}
+                <img src="{{ dish.image.url }}" alt="{{ dish.title }}" class="card-img-top" />
+              {% else %}
+                <img src="{% static 'img/default-dish.jpg' %}" alt="Изображение отсутствует" class="card-img-top" />
+              {% endif %}
+              <div class="card-body d-flex flex-column justify-content-between" style="padding: 15px;">
+                <div>
+                  <h5 class="card-title text-center">{{ dish.title }}</h5>
+                  <p class="card-text text-muted text-center">{{ dish.description|truncatewords:20 }}</p>
+                </div>
+                <div class="mt-3 text-center">
+                  <p class="fs-5 fw-semibold text-success mb-3">Цена: {{ dish.price }} сом</p>
+                  <a href="{% url 'dishes_detail' dish.id %}" class="btn btn-outline-primary rounded-pill px-4 py-2">Купить</a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         {% empty %}
-        <p style="text-align: center; color: #666; font-size: 18px;">Блюд пока что нет :(</p>
+          <p style="text-align: center; color: #666; font-size: 18px;">Блюд пока что нет :(</p>
         {% endfor %}
       </div>
 
@@ -304,27 +352,27 @@
       <nav aria-label="Навигация по страницам" style="margin-top: 40px;">
         <ul class="pagination">
           {% if page_obj.has_previous %}
-          <li>
-            <a href="?page={{ page_obj.previous_page_number }}{% if category %}&category={{ category.slug }}{% endif %}">Предыдущая</a>
-          </li>
+            <li>
+              <a href="?page={{ page_obj.previous_page_number }}{% if category %}&category={{ category.slug }}{% endif %}">Предыдущая</a>
+            </li>
           {% else %}
-          <li class="disabled"><span>Предыдущая</span></li>
+            <li class="disabled"><span>Предыдущая</span></li>
           {% endif %}
 
           {% for num in page_obj.paginator.page_range %}
-          {% if page_obj.number == num %}
-          <li class="active"><span>{{ num }}</span></li>
-          {% else %}
-          <li><a href="?page={{ num }}{% if category %}&category={{ category.slug }}{% endif %}">{{ num }}</a></li>
-          {% endif %}
+            {% if page_obj.number == num %}
+              <li class="active"><span>{{ num }}</span></li>
+            {% else %}
+              <li><a href="?page={{ num }}{% if category %}&category={{ category.slug }}{% endif %}">{{ num }}</a></li>
+            {% endif %}
           {% endfor %}
 
           {% if page_obj.has_next %}
-          <li>
-            <a href="?page={{ page_obj.next_page_number }}{% if category %}&category={{ category.slug }}{% endif %}">Следующая</a>
-          </li>
+            <li>
+              <a href="?page={{ page_obj.next_page_number }}{% if category %}&category={{ category.slug }}{% endif %}">Следующая</a>
+            </li>
           {% else %}
-          <li class="disabled"><span>Следующая</span></li>
+            <li class="disabled"><span>Следующая</span></li>
           {% endif %}
         </ul>
       </nav>

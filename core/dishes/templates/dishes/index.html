@@ -1,131 +1,357 @@
 {% load static %}
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 
 <head>
-	<meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Simple House Template</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet" />    
-	<link href="{% static 'css/templatemo-style.css' %}" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simple House - Меню</title>
+  <link href="{% static 'css/templatemo-style.css' %}" rel="stylesheet" />
+
+  <style>
+    /* --- твои стили для dropdown, карточек, пагинации и about-section --- */
+    /* Dropdown */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      margin: 40px auto 30px;
+      max-width: 320px;
+      width: 100%;
+    }
+
+    .dropdown-btn {
+      background-color: #6610f2;
+      color: white;
+      padding: 12px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      user-select: none;
+      width: 100%;
+      text-align: left;
+      box-shadow: 0 3px 6px rgba(102, 16, 242, 0.4);
+      transition: background-color 0.3s;
+    }
+
+    .dropdown-btn:hover {
+      background-color: #520dc2;
+    }
+
+    .dropdown-btn:after {
+      content: " ▼";
+      font-size: 14px;
+      float: right;
+      margin-left: 10px;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      width: 100%;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      margin-top: 6px;
+      z-index: 10;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .dropdown-content.show {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: #6610f2;
+      padding: 12px 20px;
+      text-decoration: none;
+      display: block;
+      font-weight: 600;
+      transition: background-color 0.2s;
+      border-left: 4px solid transparent;
+    }
+
+    .dropdown-content a:hover,
+    .dropdown-content a.active {
+      background-color: #6610f2;
+      color: white;
+      border-left: 4px solid #c8b6ff;
+    }
+
+    /* Карточки блюд */
+    .card {
+      box-shadow: 0 4px 10px rgb(102 16 242 / 0.15);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgb(102 16 242 / 0.3);
+    }
+
+    .card-img-top {
+      height: 250px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .card-title {
+      color: #6610f2;
+      font-weight: 700;
+    }
+
+    .btn-outline-primary {
+      color: #6610f2;
+      border-color: #6610f2;
+      border-radius: 25px;
+      padding: 8px 24px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .btn-outline-primary:hover {
+      background-color: #6610f2;
+      color: white;
+    }
+
+    /* Пагинация */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      padding: 0;
+      margin-top: 30px;
+    }
+
+    .pagination li {
+      margin: 0 6px;
+    }
+
+    .pagination a,
+    .pagination span {
+      display: block;
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid #6610f2;
+      color: #6610f2;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .pagination a:hover {
+      background-color: #6610f2;
+      color: white;
+    }
+
+    .pagination .active span {
+      background-color: #6610f2;
+      color: white;
+      cursor: default;
+      border-color: #6610f2;
+    }
+
+    .pagination .disabled span {
+      color: #ccc;
+      border-color: #ccc;
+      cursor: default;
+    }
+
+    /* Секция "О ресторане" */
+    .about-section {
+      max-width: 1100px;
+      margin: 40px auto 20px;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .about-section h2 {
+      color: #6610f2;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .about-section p {
+      color: #444;
+      font-size: 18px;
+      font-weight: 500;
+      max-width: 800px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+
+    .about-images {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .about-images img {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgb(102 16 242 / 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .about-images img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgb(102 16 242 / 0.3);
+    }
+
+    /* Логотип и шапка */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    header img.logo {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+    }
+
+    header h1 {
+      color: #6610f2;
+      font-weight: 900;
+      font-size: 2rem;
+      margin: 0;
+    }
+  </style>
 </head>
-<!--
 
-Simple House
-
-https://templatemo.com/tm-539-simple-house
-
--->
-<body> 
-
-	<div class="container">
-	<!-- Top box -->
-		<!-- Logo & Site Name -->
-		<div class="placeholder">
-			<div class="parallax-window" data-parallax="scroll" data-image-src="{% static 'img/simple-house-01.jpg' %}">
-				<div class="tm-header">
-					<div class="row tm-header-inner">
-						<div class="col-md-6 col-12">
-							<img src="{% static 'img/simple-house-logo.png' %}" alt="Logo" class="tm-site-logo" />
-							<div class="tm-site-text-box">
-								<h1 class="tm-site-title">Simple House</h1>
-								<h6 class="tm-site-description">new restaurant template</h6>	
-							</div>
-						</div>
-						<nav class="col-md-6 col-12 tm-nav">
-							<ul class="tm-nav-ul">
-								<li class="tm-nav-li"><a href="index" class="tm-nav-link active">Home</a></li>
-								<li class="tm-nav-li"><a href="about" class="tm-nav-link">About</a></li>
-								<li class="tm-nav-li"><a href="contact" class="tm-nav-link">Contact</a></li>
-							</ul>
-						</nav>	
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<main>
-			<header class="row tm-welcome-section">
-				<h2 class="col-12 text-center tm-section-title">Welcome to Simple House</h2>
-				<p class="col-12 text-center">Total 3 HTML pages are included in this template. Header image has a parallax effect. You can feel free to download, edit and use this TemplateMo layout for your commercial or non-commercial websites.</p>
-			</header>
-			
-			<div class="tm-paging-links">
-				<nav>
-					<ul>
-						<li class="tm-paging-item"><a href="#" class="tm-paging-link active">Pizza</a></li>
-						<li class="tm-paging-item"><a href="#" class="tm-paging-link">Salad</a></li>
-						<li class="tm-paging-item"><a href="#" class="tm-paging-link">Noodle</a></li>
-					</ul>
-				</nav>
-			</div>
-
-            <section class="dishes-section">
+<body>
   <div class="container">
-    <div class="row">
-      {% for dishes in Dishess %}
-        <div class="col-md-4 mb-4">
+
+    <!-- Шапка с логотипом -->
+    <header>
+      <img src="{% static 'img/logo.png' %}" alt="Логотип Simple House" class="logo" />
+      <h1>Simple House</h1>
+    </header>
+
+    <!-- Секция "О ресторане" -->
+    <section class="about-section" aria-label="О ресторане">
+      <h2>Добро пожаловать в Simple House</h2>
+      <p>
+        Наш ресторан — это уютное место, где каждый найдёт блюдо по душе. Мы предлагаем только свежие продукты,
+        оригинальные рецепты и тёплую атмосферу. Наслаждайтесь неповторимым вкусом и приятным сервисом!
+      </p>
+      <div class="about-images">
+        <img src="{% static 'img/about1.jpg' %}" alt="Интерьер ресторана Simple House" />
+        <img src="{% static 'img/about2.jpg' %}" alt="Блюда Simple House" />
+        <img src="{% static 'img/about3.jpg' %}" alt="Довольные гости в Simple House" />
+      </div>
+    </section>
+
+    <!-- Dropdown категории -->
+    <div class="dropdown" id="categoryDropdown">
+      <button onclick="toggleDropdown()" class="dropdown-btn" id="dropdownBtn" aria-haspopup="true" aria-expanded="false"
+        aria-controls="dropdownMenu">
+        {% if category %}
+        {{ category.name }}
+        {% else %}
+        Все категории
+        {% endif %}
+      </button>
+
+      <div class="dropdown-content" id="dropdownMenu" role="menu" aria-label="Категории">
+        <a href="{% url 'index' %}" class="{% if not category %}active{% endif %}" role="menuitem">Все категории</a>
+        {% for cat in categories %}
+        <a href="{% url 'dishes_by_category' cat.slug %}" class="{% if category == cat %}active{% endif %}"
+          role="menuitem">{{ cat.name }}</a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Секция с блюдами -->
+    <section class="dishes-section py-5 bg-light" aria-label="Меню блюд">
+      <div class="row" style="gap: 24px; display: flex; flex-wrap: wrap; justify-content: center;">
+        {% for dish in page_obj %}
+        <div class="col-md-4" style="flex: 1 0 300px; max-width: 320px;">
           <div class="card h-100">
-            <div class="card-body">
-<img class="card-image" src="{{ dishes.image.url }}" alt="{{ dishes.title }}" style="width:210px; height:280px; object-fit:cover;">
-              <h5 class="card-title">{{ dishes.title }}</h5>
-              <p class="card-text">{{ dishes.description|truncatewords:20 }}</p>
-              <p><strong>Цена:</strong> {{ dishes.price }} сом</p>
-              <a href="{% url 'dishes_detail' dishes.id %}" class="btn btn-primary">Купить</a>
-
-
-
-
-
+            {% if dish.image %}
+            <img src="{{ dish.image.url }}" alt="{{ dish.title }}" class="card-img-top" />
+            {% else %}
+            <img src="{% static 'img/default-dish.jpg' %}" alt="Изображение отсутствует" class="card-img-top" />
+            {% endif %}
+            <div class="card-body d-flex flex-column justify-content-between" style="padding: 15px;">
+              <div>
+                <h5 class="card-title text-center">{{ dish.title }}</h5>
+                <p class="card-text text-muted text-center">{{ dish.description|truncatewords:20 }}</p>
+              </div>
+              <div class="mt-3 text-center">
+                <p class="fs-5 fw-semibold text-success mb-3">Цена: {{ dish.price }} сом</p>
+                <a href="{% url 'dishes_detail' dish.id %}" class="btn btn-outline-primary rounded-pill px-4 py-2">Купить</a>
+              </div>
             </div>
           </div>
         </div>
-      {% empty %}
-        <p>Блюд пока-что нету:(.</p>
-      {% endfor %}
-    </div>
+        {% empty %}
+        <p style="text-align: center; color: #666; font-size: 18px;">Блюд пока что нет :(</p>
+        {% endfor %}
+      </div>
+
+      <!-- Пагинация -->
+      <nav aria-label="Навигация по страницам" style="margin-top: 40px;">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+          <li>
+            <a href="?page={{ page_obj.previous_page_number }}{% if category %}&category={{ category.slug }}{% endif %}">Предыдущая</a>
+          </li>
+          {% else %}
+          <li class="disabled"><span>Предыдущая</span></li>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+          <li class="active"><span>{{ num }}</span></li>
+          {% else %}
+          <li><a href="?page={{ num }}{% if category %}&category={{ category.slug }}{% endif %}">{{ num }}</a></li>
+          {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+          <li>
+            <a href="?page={{ page_obj.next_page_number }}{% if category %}&category={{ category.slug }}{% endif %}">Следующая</a>
+          </li>
+          {% else %}
+          <li class="disabled"><span>Следующая</span></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </section>
   </div>
-</section>
 
-			<div class="tm-section tm-container-inner">
-				<div class="row">
-					<div class="col-md-6">
-						<figure class="tm-description-figure">
-							<img src="{% static 'img/img-01.jpg' %}" alt="Image" class="img-fluid" />
-						</figure>
-					</div>
-					<div class="col-md-6">
-						<div class="tm-description-box"> 
-							<h4 class="tm-gallery-title">Maecenas nulla neque</h4>
-							<p class="tm-mb-45">Redistributing this template as a downloadable ZIP file on any template collection site is strictly prohibited. You will need to <a rel="nofollow" href="https://templatemo.com/contact">talk to us</a> for additional permissions about our templates. Thank you.</p>
-							<a href="about" class="tm-btn tm-btn-default tm-right">Read More</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</main>
+  <script>
+    function toggleDropdown() {
+      const menu = document.getElementById("dropdownMenu");
+      const btn = document.getElementById("dropdownBtn");
+      menu.classList.toggle("show");
+      btn.setAttribute("aria-expanded", menu.classList.contains("show"));
+    }
 
-		<footer class="tm-footer text-center">
-			<p>Copyright &copy; 2020 Simple House 
-            
-            | Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
-		</footer>
-	</div>
-	<script src="{% static 'js/jquery.min.js' %}"></script>
-	<script src="{% static 'js/parallax.min.js' %}"></script>
-	<script>
-		$(document).ready(function(){
-			// Handle click on paging links
-			$('.tm-paging-link').click(function(e){
-				e.preventDefault();
-				
-				var page = $(this).text().toLowerCase();
-				$('.tm-gallery-page').addClass('hidden');
-				$('#tm-gallery-page-' + page).removeClass('hidden');
-				$('.tm-paging-link').removeClass('active');
-				$(this).addClass("active");
-			});
-		});
-	</script>
+    window.onclick = function (event) {
+      if (!event.target.matches('.dropdown-btn')) {
+        const dropdowns = document.getElementsByClassName("dropdown-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+          const openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+            document.getElementById("dropdownBtn").setAttribute("aria-expanded", "false");
+          }
+        }
+      }
+    }
+  </script>
 </body>
+
 </html>

@@ -1,4 +1,5 @@
 from django.contrib import admin
-from .models import Dishes
+from .models import Dish, Category
 
-admin.site.register(Dishes)
+admin.site.register(Dish)
+admin.site.register(Category)
